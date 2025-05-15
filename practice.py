@@ -53,13 +53,25 @@ class RobotDog(Robot):
     def __init__(self, name, model, breed):
         super().__init__(name, model)
         # порода
-        self.breed = breed
+        self._breed = breed
 
     def make_sound(self):
         return f"Gav-gav"
 
     def fetch(self, item):
         return f"{self.name} принес {item}"
+
+    @property
+    def breed(self):
+        return self._breed
+
+    @breed.setter
+    def breed(self, value):
+        if not isinstance(value, str):
+            raise ValueError("Порода должна быть строкой")
+        if len(value) < 3:
+            raise ValueError("Название породы слишком короткое")
+        self._breed = value
 
     @staticmethod
     def validate_name(name):
@@ -72,19 +84,7 @@ class RobotDog(Robot):
         return f"Ищет взрывчатку"
 
     def __str__(self):
-        return f"Собака-робот {self.name}, порода: {self.breed}"
-
-
-# class Zoo:
-#     def __init__(self, *robots):
-#         self.robot_zoo = []
-#         self.robot_zoo.extend(robots)
-
-#     def __iter__(self):
-#         return iter(self.robot_zoo)
-
-#     def __repr__(self):
-#         return f"Список роботов ({self.robot_zoo})"
+        return f"Собака-робот {self.name}, порода: {self._breed}"
 
 
 if __name__ == "__main__":
@@ -108,17 +108,15 @@ if __name__ == "__main__":
     #     print(elem.make_sound())
     # robot_dog1 = RobotDog("Бобик", "Пес-охранник", "овчарка")
     # print(robot_dog1.validate_name("имя123"))
-    robot_zoo = [
-        Robot("R2-D2", "Астромеханик"),
-        WarRobot("T-800", "Терминатор", "Лазер"),
-        RobotDog("Бобик", "Пёс-охранник", "Доберман"),
-    ]
-    for robot in robot_zoo:
-        print(robot.greet())
-        print(robot.action())
-        print(robot.make_sound())
-        if isinstance(robot, RobotDog):
-            print(robot.fetch("палку"))
-    # zoo_list = Zoo(robot1, warrior1, robot_dog1)
-    # for elem in zoo_list:
-    #     print(elem)
+    # robot_zoo = [
+    #     Robot("R2-D2", "Астромеханик"),
+    #     WarRobot("T-800", "Терминатор", "Лазер"),
+    #     RobotDog("Бобик", "Пёс-охранник", "Доберман"),
+    # ]
+    # for robot in robot_zoo:
+    #     print(robot.greet())
+    #     print(robot.action())
+    #     print(robot.make_sound())
+    #     if isinstance(robot, RobotDog):
+    #         print(robot.fetch("палку"))
+    dog = RobotDog("Бобик", "Охранник", "Доберман")
